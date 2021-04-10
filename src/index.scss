@@ -1,0 +1,87 @@
+body {
+	margin: 0;
+	font-family: Noway !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #fafafa;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+.App {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.login-page-main {
+	display: flex;
+	width: 100%;
+}
+.login-bg-img {
+	background-image: url('./assets/login-right-img.jpg');
+	background-size: cover;
+	flex-grow: 7;
+}
+.login-form-container {
+	flex-grow: 1;
+	background: #fafafa;
+	width: 386px;
+}
+.login-title {
+	height: 48px;
+	background: rgb(197, 29, 35);
+	align-items: center;
+	color: #fff;
+	font-weight: bold;
+	display: flex;
+	justify-content: space-around;
+}
+.login-card {
+	background-color: #fff;
+	margin: 8px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+	border-radius: 2px;
+	overflow: hidden;
+	padding: 30px 16px;
+}
+.login-card-content {
+	margin: 16px 8px;
+}
+.ant-btn.ant-btn-primary {
+	background: #25ba38;
+	border: 0;
+	cursor: pointer;
+	margin: 0;
+	text-decoration: none;
+	text-align: center;
+	font-family: Noway;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-weight: 500;
+	font-size: 14px;
+	height: 30px;
+	padding: 0 8px;
+	width: 100%;
+	border-radius: 4px;
+	text-transform: uppercase;
+}
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+	background: #25ba38 !important;
+	border-color: #25ba38 !important;
+}
+.ant-form-item-label > label {
+	font-size: 12px !important;
+	color: #888 !important;
+}
+.ant-form-item-explain.ant-form-item-explain-error {
+	color: #c51d23 !important;
+	font-size: 10px;
+	height: 16px;
+	font-weight: bold;
+}
