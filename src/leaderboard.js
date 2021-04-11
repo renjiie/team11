@@ -1,20 +1,25 @@
 import React from 'react';
 import { Table, Tabs } from 'antd';
 import { columns, teamCombo, player_names } from './configs';
+import gif from './assets/lead.gif';
 
 const { TabPane } = Tabs;
 
-const Leaderboard = ({ userDetails, teamPoints }) => {
+const Leaderboard = ({ userDetails, teamPoints, live }) => {
 	const teamMap = {};
-	for (let i = 0; i < teamPoints.length - 1; i += 4) {
-		console.log('teamPoints[i]', teamPoints[i]);
-		teamMap[player_names[teamPoints[i]]] = teamPoints[i + 2];
-	}
+	Object.keys(teamPoints).length > 0 &&
+		Object.keys(teamPoints).map((el) => {
+			return (teamMap[player_names[el]] = teamPoints[el]);
+		});
+
 	const totalTeamPoints = Object.values(teamCombo).map((el) => {
 		return {
-			teams: `${el[0].toUpperCase()} + ${el[1].toUpperCase()}`,
+			teams: `${el[0]} + ${el[1]}`,
 			points: parseFloat(teamMap[el[0]]) + parseFloat(teamMap[el[1]]),
 		};
+	});
+	totalTeamPoints.sort(function (a, b) {
+		return b.points - a.points;
 	});
 	var rank = 1;
 	for (let i = 0; i < totalTeamPoints.length; i++) {
@@ -22,13 +27,17 @@ const Leaderboard = ({ userDetails, teamPoints }) => {
 		if (i > 0 && totalTeamPoints[i].points < totalTeamPoints[i - 1].points) {
 			rank++;
 		}
+
 		totalTeamPoints[i].rank = rank;
 	}
 	return (
 		<div className='leaderboard-container'>
 			<div className='leaderboard-title'>CONTEST DETAILS</div>
-			<Tabs>
-				<TabPane className='leaderboard-tab-title' tab='Leaderboard' key='1'>
+			<Tabs className='leaderboard-tabs'>
+				<TabPane
+					className='leaderboard-tab-title'
+					tab={live ? 'Live' : 'Completed'}
+					key='1'>
 					<Table
 						className='leaderboard-table'
 						columns={columns}
@@ -37,6 +46,12 @@ const Leaderboard = ({ userDetails, teamPoints }) => {
 					/>
 				</TabPane>
 			</Tabs>
+			<div className='leading-team'>
+				<div className='leading-title'>
+					🔥 {totalTeamPoints[0].teams.replaceAll('+', ' & ')}
+				</div>
+				<img src={gif} alt='Leading...' />;
+			</div>
 		</div>
 	);
 };

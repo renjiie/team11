@@ -102,3 +102,19 @@ code {
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
 	color: #c51d23 !important;
 }
+.ant-table-cell {
+	text-transform: capitalize !important;
+}
+.ant-tabs.ant-tabs-top.leaderboard-tabs {
+	padding: 16px;
+}
+.leading-title {
+	height: 48px;
+	background: rgb(197, 29, 35);
+	align-items: center;
+	color: #fff;
+	font-weight: bold;
+	display: flex;
+	justify-content: space-around;
+	text-transform: capitalize;
+}

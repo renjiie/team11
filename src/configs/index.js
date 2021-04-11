@@ -27,6 +27,6 @@ export const player_names = {
 };
 export const teamCombo = {
 	t1: ['reub', 'akm'],
-	t2: ['gopi', 'suva'],
-	t3: ['renj', 'dani'],
+	t2: ['gopi', 'dani'],
+	t3: ['renj', 'suva'],
 };

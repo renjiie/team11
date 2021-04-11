@@ -14,15 +14,22 @@ const App = () => {
 		otp: 0,
 	});
 	const [teamPoints, setTeamPoints] = useState([]);
+	const [live, setLive] = useState(true);
 
-	const handleTeamResults = ({ userDetails, teams }) => {
+	const handleTeamResults = ({ userDetails, teams, live }) => {
 		setUserDetails(userDetails);
 		setTeamPoints(teams);
+		setLive(live);
+		localStorage.setItem('userDetails', userDetails);
 	};
 	return (
 		<div className='App'>
-			{teamPoints.length > 0 ? (
-				<Leaderboard userDetails={userDetails} teamPoints={teamPoints} />
+			{teamPoints && Object.keys(teamPoints).length > 0 ? (
+				<Leaderboard
+					live={live}
+					userDetails={userDetails}
+					teamPoints={teamPoints}
+				/>
 			) : (
 				<Login handleTeamResults={handleTeamResults} />
 			)}
