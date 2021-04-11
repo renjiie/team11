@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-// import userApi from './api';
-const host = 'https://team11-api.herokuapp.com';
-const proxyurl = 'https://cors-anywhere.herokuapp.com/';
 const error = () => {
 	message.error('Something went wrong! Please reload the page and try again');
 };
@@ -20,7 +17,7 @@ const LoginForm = ({ handleTeamResults }) => {
 			setLoading(true);
 			const otpNumber = { otp: values.otp };
 			setUserDetails({ ...userDetails, otp: values.otp });
-			fetch(`${proxyurl}${host}/otp`, {
+			fetch(`/otp`, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
@@ -50,7 +47,7 @@ const LoginForm = ({ handleTeamResults }) => {
 			setLoading(true);
 			const phoneNumber = { phone: values.phone };
 			setUserDetails({ ...userDetails, phone: values.phone });
-			fetch(`${proxyurl}${host}/phoneNumber`, {
+			fetch(`/phoneNumber`, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
