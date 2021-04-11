@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 // import userApi from './api';
-const host = 'https://team11-api.herokuapp.com/';
+const host = 'https://team11-api.herokuapp.com';
 const error = () => {
 	message.error('Something went wrong! Please reload the page and try again');
 };
