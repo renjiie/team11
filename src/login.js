@@ -3,9 +3,9 @@ import { Form, Input, Button, message } from 'antd';
 // import userApi from './api';
 
 const error = () => {
-	message.error('Something went wrong! Please try again');
+	message.error('Something went wrong! Please reload the page and try again');
 };
-const LoginForm = () => {
+const LoginForm = ({ handleTeamResults }) => {
 	const [form] = Form.useForm();
 	const [userDetails, setUserDetails] = useState({
 		phone: 0,
@@ -31,6 +31,10 @@ const LoginForm = () => {
 				.then((results) => {
 					if (results.status === 'success') {
 						console.log('THE results', results);
+						handleTeamResults({
+							userDetails,
+							teams: results.message,
+						});
 						setLoading(false);
 					} else {
 						setLoading(false);
@@ -55,7 +59,6 @@ const LoginForm = () => {
 			})
 				.then((response) => response.json())
 				.then((results) => {
-					console.log('results phn', results);
 					if (results.status === 'success') {
 						setLoading(false);
 						setOtpForm(true);
@@ -119,7 +122,7 @@ const LoginForm = () => {
 							)}
 
 							<Form.Item>
-								<Button type='primary' htmlType='submit'>
+								<Button loading={loading} type='primary' htmlType='submit'>
 									{otpForm ? 'VERIFY OTP' : 'PROCEED'}
 								</Button>
 							</Form.Item>
