@@ -17,7 +17,7 @@ const LoginForm = ({ handleTeamResults }) => {
 			setLoading(true);
 			const otpNumber = { otp: values.otp };
 			setUserDetails({ ...userDetails, otp: values.otp });
-			fetch(`/otp`, {
+			fetch(`/api/otp`, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const LoginForm = ({ handleTeamResults }) => {
 			setLoading(true);
 			const phoneNumber = { phone: values.phone };
 			setUserDetails({ ...userDetails, phone: values.phone });
-			fetch(`/phoneNumber`, {
+			fetch(`/api/phoneNumber`, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
