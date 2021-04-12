@@ -108,6 +108,9 @@ code {
 .ant-tabs.ant-tabs-top.leaderboard-tabs {
 	padding: 16px;
 }
+.lead-container {
+	display: flex;
+}
 .leading-title {
 	height: 48px;
 	background: rgb(197, 29, 35);
@@ -117,6 +120,10 @@ code {
 	display: flex;
 	justify-content: space-around;
 	text-transform: capitalize;
+	img {
+		width: 300px;
+		height: 250px;
+	}
 }
 .leading-team {
 	margin: 0 auto;

@@ -2,16 +2,21 @@ import React from 'react';
 import { Table, Tabs } from 'antd';
 import { columns, teamCombo, player_names } from './configs';
 import gif from './assets/lead.gif';
+import gif2 from './assets/celebrate.gif';
 
 const { TabPane } = Tabs;
 
 const Leaderboard = ({ userDetails, teamPoints, live }) => {
+	const teamObj = Object.fromEntries(
+		Object.entries(teamPoints).sort(([, a], [, b]) => b - a)
+	);
+
 	const teamMap = {};
 	Object.keys(teamPoints).length > 0 &&
 		Object.keys(teamPoints).map((el) => {
 			return (teamMap[player_names[el]] = teamPoints[el]);
 		});
-
+	console.log('LOG TEAMMAP', teamMap);
 	const totalTeamPoints = Object.values(teamCombo).map((el) => {
 		return {
 			teams: `${el[0]} + ${el[1]}`,
@@ -21,6 +26,7 @@ const Leaderboard = ({ userDetails, teamPoints, live }) => {
 	totalTeamPoints.sort(function (a, b) {
 		return b.points - a.points;
 	});
+
 	var rank = 1;
 	for (let i = 0; i < totalTeamPoints.length; i++) {
 		// increase rank only if current score less than previous
@@ -30,6 +36,7 @@ const Leaderboard = ({ userDetails, teamPoints, live }) => {
 
 		totalTeamPoints[i].rank = rank;
 	}
+	console.log('LOG totalTeamPoints', totalTeamPoints);
 	return (
 		<div className='leaderboard-container'>
 			<div className='leaderboard-title'>CONTEST DETAILS</div>
@@ -46,11 +53,20 @@ const Leaderboard = ({ userDetails, teamPoints, live }) => {
 					/>
 				</TabPane>
 			</Tabs>
-			<div className='leading-team'>
-				<div className='leading-title'>
-					🔥 {totalTeamPoints[0].teams.replaceAll('+', ' & ')}
+			<div className='lead-container'>
+				<div className='leading-team'>
+					<div className='leading-title'>
+						Best Team Performance: 🔥{' '}
+						{totalTeamPoints[0].teams.replaceAll('+', ' & ')}
+					</div>
+					<img src={gif} alt='Leading...' />;
 				</div>
-				<img src={gif} alt='Leading...' />;
+				<div className='leading-team'>
+					<div className='leading-title'>
+						Best Individual Performance: 🔥 {Object.keys(teamObj)[0]}
+					</div>
+					<img src={gif2} alt='Leading...' />;
+				</div>
 			</div>
 		</div>
 	);
