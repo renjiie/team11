@@ -30,3 +30,4 @@ export const teamCombo = {
 	t2: ['akm', 'dani'],
 	t3: ['renj', 'suva'],
 };
+export const contestName = "Test Contest"
