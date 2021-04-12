@@ -26,7 +26,7 @@ export const player_names = {
 	SaidapetSuperkings: 'akm',
 };
 export const teamCombo = {
-	t1: ['reub', 'akm'],
-	t2: ['gopi', 'dani'],
+	t1: ['reub', 'gopi'],
+	t2: ['akm', 'dani'],
 	t3: ['renj', 'suva'],
 };
