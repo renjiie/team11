@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import {
+	Form,
+	Input,
+	Button,
+	message,
+	List,
+	Card,
+	Avatar,
+	Image,
+	Modal,
+} from 'antd';
+import { individualTeams, player_names } from './configs';
+import { getKeyByValue } from './utils';
+import { getImageByKey } from './utils/fetchImage';
+import partner from './assets/partner.gif';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { confirm } = Modal;
+
 const error = () => {
-	message.error('Something went wrong! Please reload the page and try again');
+	message.error('Something went wrong! Please contact 9940616329');
 };
-const LoginForm = ({ handleTeamResults }) => {
+const dataLoadederror = () => {
+	message.error('Data already iruku da. Ipa unaku ena venum');
+};
+const errorGif = () => {
+	message.error('You are not an admin');
+};
+const LoginForm = () => {
 	const [form] = Form.useForm();
 	const [userDetails, setUserDetails] = useState({
 		phone: 0,
@@ -11,13 +35,76 @@ const LoginForm = ({ handleTeamResults }) => {
 	});
 	const [otpForm, setOtpForm] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [random, setRandom] = useState(false);
+	const [teams, setTeams] = useState([]);
+	const [falseLoading, setFalseLoading] = useState(false);
 
+	// useEffect(() => {
+	// 	fetch(`http://127.0.0.1:8000/getTeams`, {
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 		method: 'GET',
+	// 	})
+	// 		.then((response) => response.json())
+	// 		.then((results) => {
+	// 			if (results.status === 'success') {
+	// 				setFalseLoading(false);
+	// 				setLoading(false);
+	// 			} else {
+	// 				setLoading(false);
+	// 				error();
+	// 			}
+	// 		})
+	// 		.catch((err) => {
+	// 			error();
+	// 			setLoading(false);
+	// 		});
+	// }, []);
+	const showConfirm = () => {
+		confirm({
+			title: 'Do you want to continue with the selections?',
+			icon: <ExclamationCircleOutlined />,
+			onOk() {
+				const teamObj = {};
+				teams.map((el, i) => (teamObj[`t${i}`] = el));
+				console.log('LOG TEAM FETCH API', teamObj);
+				setLoading(true);
+				console.log('OK');
+				fetch(`https://team11-api.herokuapp.com/insertteams`, {
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						team: teamObj,
+					}),
+					method: 'POST',
+				})
+					.then((response) => response.json())
+					.then((results) => {
+						if (results.status === 'success') {
+							setLoading(false);
+						} else {
+							setLoading(false);
+							dataLoadederror();
+						}
+					})
+					.catch((err) => {
+						error();
+						setLoading(false);
+					});
+			},
+			onCancel() {},
+		});
+	};
 	const onFinish = (values) => {
 		if (otpForm && values && values.otp.match(/^\d{6}$/)) {
 			setLoading(true);
 			const otpNumber = { otp: values.otp };
 			setUserDetails({ ...userDetails, otp: values.otp });
-			fetch(`/api/otp`, {
+			fetch(`https://team11-api.herokuapp.com/otp`, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
@@ -28,11 +115,7 @@ const LoginForm = ({ handleTeamResults }) => {
 				.then((response) => response.json())
 				.then((results) => {
 					if (results.status === 'success') {
-						handleTeamResults({
-							userDetails,
-							teams: results.message,
-							live: results.live,
-						});
+						setRandom(true);
 						setLoading(false);
 					} else {
 						setLoading(false);
@@ -45,35 +128,153 @@ const LoginForm = ({ handleTeamResults }) => {
 				});
 		} else if (values && values.phone.match(/^\d{10}$/)) {
 			setLoading(true);
-			const phoneNumber = { phone: values.phone };
-			setUserDetails({ ...userDetails, phone: values.phone });
-			fetch(`/api/phoneNumber`, {
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(phoneNumber),
-				method: 'POST',
-			})
-				.then((response) => response.json())
-				.then((results) => {
-					if (results.status === 'success') {
-						setLoading(false);
-						setOtpForm(true);
-					} else {
+			if (values.phone === '9840286159') {
+				const phoneNumber = { phone: values.phone };
+				setUserDetails({ ...userDetails, phone: values.phone });
+				fetch(`https://team11-api.herokuapp.com/phoneNumber`, {
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(phoneNumber),
+					method: 'POST',
+				})
+					.then((response) => response.json())
+					.then((results) => {
+						if (results.status === 'success') {
+							setLoading(false);
+							setOtpForm(true);
+						} else {
+							error();
+							setLoading(false);
+						}
+					})
+					.catch((err) => {
 						error();
 						setLoading(false);
-					}
-				})
-				.catch((err) => {
-					error();
-					setLoading(false);
-				});
-			// userApi.phoneNumberApi({ phone: values.phone });
+					});
+			} else {
+				setLoading(false);
+				errorGif();
+			}
 		}
 	};
+	const handleTeamSelection = () => {
+		setFalseLoading(true);
+		setTimeout(() => {
+			setFalseLoading(false);
+		}, 5000);
+		const individuals = [...individualTeams];
+		individuals.sort(() => 0.5 - Math.random());
+		const pairs = [];
 
-	return (
+		// as we need at least players to form a pair
+		while (individuals.length >= 2) {
+			const pair = [individuals.pop(), individuals.pop()];
+			// Save current pair
+			pairs.push(pair);
+		}
+		setTeams(pairs);
+	};
+	return random ? (
+		<div className='team-selection-container'>
+			<Modal
+				visible={falseLoading}
+				closable={false}
+				mask
+				footer={null}
+				bodyStyle={{
+					padding: '0px',
+					width: '50%',
+					height: '50vh',
+				}}>
+				<img className='partner-gif' src={partner} alt='SELETION...' />
+			</Modal>
+			<div className='team-selection-title'>Team Selection</div>
+			<div className='selection-list'>
+				<div className='total-squad'>
+					<div className='total-squad-title'>All Players</div>
+					<div className='individual-teams'>
+						<List
+							size='small'
+							bordered
+							dataSource={individualTeams}
+							renderItem={(item) => (
+								<List.Item>
+									<List.Item.Meta
+										avatar={
+											<Avatar
+												src={
+													<Image
+														src={getImageByKey(item)}
+														preview={{
+															src: getImageByKey(item),
+														}}
+													/>
+												}
+											/>
+										}
+										title={getKeyByValue(player_names, item)}
+										description={item}
+									/>
+								</List.Item>
+							)}
+						/>
+					</div>
+					<Button type='primary' onClick={handleTeamSelection}>
+						Select Teams
+					</Button>
+				</div>
+
+				{teams.length > 0 && !falseLoading && (
+					<div className='random-container'>
+						<div className='random-squad-title'>Selected Teams</div>
+						<div className='random-teams'>
+							<List
+								grid={{ gutter: 16, column: 1 }}
+								dataSource={teams}
+								renderItem={(item, index) => (
+									<List.Item>
+										<Card>
+											<Avatar.Group>
+												<Avatar
+													src={
+														<Image
+															src={getImageByKey(item[0])}
+															preview={{
+																src: getImageByKey(item[0]),
+															}}
+														/>
+													}
+												/>
+												<Avatar
+													src={
+														<Image
+															src={getImageByKey(item[1])}
+															preview={{
+																src: getImageByKey(item[1]),
+															}}
+														/>
+													}
+												/>
+											</Avatar.Group>
+											<div className='team-cards'>
+												{item[0]} & {item[1]}
+											</div>
+										</Card>
+									</List.Item>
+								)}
+							/>
+						</div>
+
+						<Button type='primary' onClick={showConfirm}>
+							Confirm Teams
+						</Button>
+					</div>
+				)}
+			</div>
+		</div>
+	) : (
 		<div className='login-page-main'>
 			<div className='login-form-container'>
 				<div className='login-title'>LOGIN</div>
