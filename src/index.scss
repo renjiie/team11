@@ -144,11 +144,18 @@ code {
 }
 .selection-list {
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	// justify-content: space-between;
+}
+@media (min-width: 1000px) {
+	.total-squad,
+	.random-container {
+		width: 50% !important;
+	}
 }
 .total-squad,
 .random-container {
-	width: 50%;
+	width: 100%;
 	padding: 20px;
 	text-align: center;
 }
@@ -159,7 +166,7 @@ code {
 	text-transform: capitalize;
 }
 .partner-gif {
-	width: 33rem;
+	width: 25rem;
 }
 .ant-modal-confirm .ant-modal-confirm-btns {
 	display: flex !important;
@@ -186,4 +193,9 @@ code {
 }
 .ant-tabs-content {
 	text-align: center !important;
+}
+.gif-modal {
+	.ant-modal-content {
+		background-color: transparent;
+	}
 }

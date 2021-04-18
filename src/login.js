@@ -179,6 +179,7 @@ const LoginForm = () => {
 	return random ? (
 		<div className='team-selection-container'>
 			<Modal
+				className='gif-modal'
 				visible={falseLoading}
 				closable={false}
 				mask
