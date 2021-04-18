@@ -128,7 +128,11 @@ const LoginForm = () => {
 				});
 		} else if (values && values.phone.match(/^\d{10}$/)) {
 			setLoading(true);
-			if (values.phone === '9840286159') {
+			if (
+				values.phone === '9840286159' ||
+				values.phone === '8220892084' ||
+				values.phone === '9940616329'
+			) {
 				const phoneNumber = { phone: values.phone };
 				setUserDetails({ ...userDetails, phone: values.phone });
 				fetch(`https://team11-api.herokuapp.com/phoneNumber`, {
