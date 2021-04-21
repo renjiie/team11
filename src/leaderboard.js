@@ -38,7 +38,7 @@ const Leaderboard = () => {
 	const [loading, setLoading] = useState(true);
 	const [totalMatches, setTotalMatches] = useState([]);
 	useEffect(() => {
-		fetch(`http://localhost:4000/fullMatch`, {
+		fetch(`https://team11-api.herokuapp.com/refresh`, {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
