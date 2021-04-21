@@ -2,7 +2,7 @@ import React from 'react';
 import gif from './assets/lead.gif';
 import gif2 from './assets/celebrate.gif';
 
-const Leaders = ({ totalTeamPts, teamObj, show }) => {
+const Leaders = ({ totalTeamPts, winner, show }) => {
 	return (
 		show && (
 			<div className='lead-container'>
@@ -14,7 +14,7 @@ const Leaders = ({ totalTeamPts, teamObj, show }) => {
 				</div>
 				<div className='leading-team'>
 					<div className='leading-title'>
-						Best Individual Performance: 🔥 {Object.keys(teamObj)[0]}
+						Best Individual Performance: 🔥 {winner}
 					</div>
 					<img className='lead-gif-lb' src={gif2} alt='Leading...' />
 				</div>

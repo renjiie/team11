@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Table, Tabs, Avatar, Image } from 'antd';
-import { columns, player_names } from './configs';
+import { columns } from './configs';
 import { message } from 'antd';
 import { getImageByKey } from './utils/fetchImage';
 import { Spin } from 'antd';
@@ -34,23 +34,11 @@ const ranking = (totalTeam) => {
 	}
 };
 const Leaderboard = () => {
-	const [matchResults, setMatchResults] = useState({
-		teamPoints: {},
-		live: false,
-		teamCombo: {},
-		matchName: null,
-	});
 	const leadRef = useRef();
 	const [loading, setLoading] = useState(true);
-	const removeId = (dbteam) => {
-		const teamRemoveId = {};
-		Object.keys(dbteam).map(
-			(el) => el !== '_id' && (teamRemoveId[el] = dbteam[el])
-		);
-		return teamRemoveId;
-	};
+	const [totalMatches, setTotalMatches] = useState([]);
 	useEffect(() => {
-		fetch(`https://team11-api.herokuapp.com/refresh`, {
+		fetch(`http://localhost:4000/fullMatch`, {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -60,12 +48,8 @@ const Leaderboard = () => {
 			.then((response) => response.json())
 			.then((results) => {
 				if (results.status === 'success') {
-					setMatchResults({
-						teamPoints: results.message,
-						live: results.live,
-						teamCombo: removeId(results.Dbteam),
-						matchName: results.Dbteam._id,
-					});
+					totalMatches.length === 0 &&
+						setTotalMatches(results.message.completedTeams);
 					setLoading(false);
 				} else {
 					setLoading(false);
@@ -75,24 +59,14 @@ const Leaderboard = () => {
 			.catch((err) => {
 				setLoading(false);
 			});
-	}, []);
-	const { teamPoints, live, teamCombo, matchName } = matchResults;
+	}, [totalMatches]);
+	const currentMatch = [];
+	totalMatches.length > 0 &&
+		[...totalMatches].map((el) => el.live && currentMatch.push(el));
 
-	const teamObj =
-		Object.keys(teamPoints).length > 0
-			? Object.fromEntries(
-					Object.entries(teamPoints).sort(([, a], [, b]) => b - a)
-			  )
-			: {};
-
-	const teamMap = {};
-	Object.keys(teamPoints).length > 0 &&
-		Object.keys(teamPoints).map((el) => {
-			return (teamMap[player_names[el]] = teamPoints[el]);
-		});
-	const totalTeamPoints =
-		Object.keys(teamMap).length > 0
-			? Object.values(teamCombo).map((el) => {
+	const livePoints =
+		currentMatch.length > 0
+			? Object.values(currentMatch[0].team).map((valArr) => {
 					return {
 						teams: (
 							<div className='table-cell-avatar'>
@@ -100,9 +74,9 @@ const Leaderboard = () => {
 									<Avatar
 										src={
 											<Image
-												src={getImageByKey(el[0])}
+												src={getImageByKey(valArr[0])}
 												preview={{
-													src: getImageByKey(el[0]),
+													src: getImageByKey(valArr[0]),
 												}}
 											/>
 										}
@@ -110,59 +84,64 @@ const Leaderboard = () => {
 									<Avatar
 										src={
 											<Image
-												src={getImageByKey(el[1])}
+												src={getImageByKey(valArr[1])}
 												preview={{
-													src: getImageByKey(el[1]),
+													src: getImageByKey(valArr[1]),
 												}}
 											/>
 										}
 									/>
 								</Avatar.Group>
 								<div ref={leadRef} className='team-name-cell'>
-									{el[0]} & {el[1]}
+									{valArr[0]} & {valArr[1]}
 								</div>
 							</div>
 						),
-						points: parseFloat(teamMap[el[0]]) + parseFloat(teamMap[el[1]]),
+						points:
+							parseFloat(currentMatch[0].points[valArr[0]]) +
+							parseFloat(currentMatch[0].points[valArr[1]]),
 					};
 			  })
-			: {};
+			: [];
 	const totalTeamPts =
-		Object.keys(teamMap).length > 0
-			? Object.values(teamCombo).map((el) => {
+		currentMatch.length > 0
+			? Object.values(currentMatch[0].team).map((el) => {
 					return {
 						teams: `${el[0]} & ${el[1]}`,
-						points: parseFloat(teamMap[el[0]]) + parseFloat(teamMap[el[1]]),
+						points:
+							parseFloat(currentMatch[0].points[el[0]]) +
+							parseFloat(currentMatch[0].points[el[1]]),
 					};
 			  })
 			: {};
 
-	ranking(totalTeamPoints);
+	ranking(livePoints);
 	ranking(totalTeamPts);
-	const match = live ? 'Live' : 'Completed';
-	console.log('LOG total team point', totalTeamPts);
 	return (
 		<div className='leaderboard-container'>
 			<div className='leaderboard-title'>
-				{(matchName && matchName.trim().replace(/[0-9]/g, '')) ||
+				{(currentMatch.length > 0 &&
+					currentMatch[0]._id.trim().replace(/[0-9]/g, '')) ||
 					'CONTEST DETAILS'}
 			</div>
 			{loading ? (
 				<Spin indicator={antIcon} />
-			) : Object.keys(teamPoints).length > 0 ? (
+			) : totalMatches.length > 0 ? (
 				<React.Fragment>
-					<Tabs className='leaderboard-tabs' defaultActiveKey={match}>
+					<Tabs
+						className='leaderboard-tabs'
+						defaultActiveKey={currentMatch.length > 0 ? 'Live' : 'Completed'}>
 						<TabPane className='leaderboard-tab-title' tab='Live' key='Live'>
 							<Table
 								className='leaderboard-table'
 								columns={columns}
-								dataSource={live ? totalTeamPoints : []}
+								dataSource={livePoints}
 								pagination={false}
 							/>
 							<Leaders
-								show={live}
+								show={currentMatch.length > 0}
 								totalTeamPts={totalTeamPts}
-								teamObj={teamObj}
+								winner={currentMatch.length > 0 && currentMatch[0].winner}
 							/>
 						</TabPane>
 						<TabPane
