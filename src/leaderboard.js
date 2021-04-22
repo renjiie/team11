@@ -5,8 +5,9 @@ import { message } from 'antd';
 import { getImageByKey } from './utils/fetchImage';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import wip from './assets/wip.jpg';
 import Leaders from './leaders';
+import CompletedMatch from './completedMatch';
+
 const antIcon = (
 	<LoadingOutlined
 		style={{ fontSize: '4rem', color: '#c51d23', margin: '20% 0' }}
@@ -38,7 +39,7 @@ const Leaderboard = () => {
 	const [loading, setLoading] = useState(true);
 	const [totalMatches, setTotalMatches] = useState([]);
 	useEffect(() => {
-		fetch(`http://localhost:4000/fullMatch`, {
+		fetch(`https://team11-api.herokuapp.com/refresh`, {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -148,13 +149,7 @@ const Leaderboard = () => {
 							className='leaderboard-tab-title'
 							tab='Completed'
 							key='Completed'>
-							{/* <Table
-								className='leaderboard-table'
-								columns={columns}
-								dataSource={totalTeamPoints}
-								pagination={false}
-							/> */}
-							<Image src={wip} />
+							<CompletedMatch data={totalMatches} />
 						</TabPane>
 					</Tabs>
 				</React.Fragment>

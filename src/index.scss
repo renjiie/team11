@@ -199,3 +199,92 @@ code {
 		background-color: transparent;
 	}
 }
+.complete-match-container {
+	height: 70vh;
+	overflow: auto;
+	padding: 10px;
+}
+.complete-flex,
+.complete-flex-title {
+	display: flex;
+	align-items: center;
+	text-transform: capitalize;
+}
+.complete-flex-title {
+	height: 48px;
+	background: rgb(197, 29, 35);
+	color: #fff;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+.complete-flex {
+	background: #fff;
+	margin: 10px 0px;
+	box-shadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.2),
+		0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
+.match-combo,
+.match-combo-title {
+	display: flex;
+	width: 50%;
+}
+.ant-card-grid {
+	padding: 5%;
+	width: 100% !important;
+}
+.match-name,
+.match-name-title {
+	width: 15% !important;
+}
+.team-category-container {
+	width: 100%;
+}
+.cat-flex {
+	display: flex;
+	justify-content: space-between;
+}
+.match-winner,
+.match-team-winner,
+.match-winner-title,
+.match-team-winner-title {
+	width: 17.5%;
+}
+.match-combo-title {
+	display: flex;
+	justify-content: space-around;
+}
+.match-team-winner-title {
+	border-right: 1px solid;
+	border-left: 1px solid;
+}
+.match-name-title {
+	border-right: 1px solid;
+}
+.ant-card-head {
+	min-height: 0px !important;
+	padding: 0px !important;
+}
+.ant-card-head-wrapper {
+	background: green;
+	height: 30px;
+	color: #fff;
+}
+@media only screen and (max-width: 700px) {
+	.match-combo,
+	.match-combo-title {
+		display: flex;
+		flex-direction: column;
+		width: 40%;
+	}
+}
+.team-win-flex {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.avatar-winner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
