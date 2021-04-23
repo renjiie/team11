@@ -28,9 +28,4 @@ export const player_names = {
 	'Aj team817KT': 'dani',
 	SaidapetSuperkings: 'akm',
 };
-export const teamCombo = {
-	t1: ['reub', 'gopi'],
-	t2: ['akm', 'dani'],
-	t3: ['renj', 'suva'],
-};
 export const individualTeams = ['reub', 'gopi', 'akm', 'dani', 'renj', 'suva'];

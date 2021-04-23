@@ -7,6 +7,7 @@ import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Leaders from './leaders';
 import CompletedMatch from './completedMatch';
+import Statistics from './stats';
 
 const antIcon = (
 	<LoadingOutlined
@@ -150,6 +151,9 @@ const Leaderboard = () => {
 							tab='Completed'
 							key='Completed'>
 							<CompletedMatch data={totalMatches} />
+						</TabPane>
+						<TabPane className='leaderboard-tab-title' tab='Stats' key='Stats'>
+							<Statistics data={totalMatches} />
 						</TabPane>
 					</Tabs>
 				</React.Fragment>

@@ -39,29 +39,6 @@ const LoginForm = () => {
 	const [teams, setTeams] = useState([]);
 	const [falseLoading, setFalseLoading] = useState(false);
 
-	// useEffect(() => {
-	// 	fetch(`http://127.0.0.1:8000/getTeams`, {
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		method: 'GET',
-	// 	})
-	// 		.then((response) => response.json())
-	// 		.then((results) => {
-	// 			if (results.status === 'success') {
-	// 				setFalseLoading(false);
-	// 				setLoading(false);
-	// 			} else {
-	// 				setLoading(false);
-	// 				error();
-	// 			}
-	// 		})
-	// 		.catch((err) => {
-	// 			error();
-	// 			setLoading(false);
-	// 		});
-	// }, []);
 	const showConfirm = () => {
 		confirm({
 			title: 'Do you want to continue with the selections?',
@@ -69,9 +46,7 @@ const LoginForm = () => {
 			onOk() {
 				const teamObj = {};
 				teams.map((el, i) => (teamObj[`t${i}`] = el));
-				console.log('LOG TEAM FETCH API', teamObj);
 				setLoading(true);
-				console.log('OK');
 				fetch(`https://team11-api.herokuapp.com/insertteams`, {
 					headers: {
 						Accept: 'application/json',

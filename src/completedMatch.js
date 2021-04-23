@@ -43,7 +43,7 @@ const CompletedMatch = ({ data }) => (
 							))}
 						</div>
 						<div className='match-team-winner'>
-							{findWinner(el.team, el.points, el._id) && (
+							{findWinner(el.team, el.points) && (
 								<div className='team-win-flex'>
 									<Avatar.Group>
 										<Avatar
@@ -51,9 +51,7 @@ const CompletedMatch = ({ data }) => (
 												<Image
 													preview='false'
 													src={getImageByKey(
-														Object.keys(
-															findWinner(el.team, el.points, el._id)
-														)[0]
+														Object.keys(findWinner(el.team, el.points))[0]
 															.replace(/\s/g, '')
 															.split('&')[0]
 													)}
@@ -65,9 +63,7 @@ const CompletedMatch = ({ data }) => (
 												<Image
 													preview='false'
 													src={getImageByKey(
-														Object.keys(
-															findWinner(el.team, el.points, el._id)
-														)[0]
+														Object.keys(findWinner(el.team, el.points))[0]
 															.replace(/\s/g, '')
 															.split('&')[1]
 													)}
@@ -76,12 +72,8 @@ const CompletedMatch = ({ data }) => (
 										/>
 									</Avatar.Group>
 
-									<div>
-										{Object.keys(findWinner(el.team, el.points, el._id))[0]}
-									</div>
-									<div>
-										{Object.values(findWinner(el.team, el.points, el._id))[0]}
-									</div>
+									<div>{Object.keys(findWinner(el.team, el.points))[0]}</div>
+									<div>{Object.values(findWinner(el.team, el.points))[0]}</div>
 								</div>
 							)}
 						</div>
