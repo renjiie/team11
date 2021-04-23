@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Avatar, Image } from 'antd';
 import { findWins } from './utils';
+import { getImageByKey } from './utils/fetchImage';
 const Stats = ({ data }) => {
 	const totalPointsData = [];
 	const totalPointsCols = [
@@ -8,6 +9,14 @@ const Stats = ({ data }) => {
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
+			render: (text) => {
+				return (
+					<div className='avatar-name-cell'>
+						<Avatar src={<Image src={getImageByKey(text)} />} />
+						<div className='avatar-name'>{text}</div>
+					</div>
+				);
+			},
 		},
 		{
 			title: 'Total Points',
@@ -19,7 +28,7 @@ const Stats = ({ data }) => {
 			title: 'Solo Wins',
 			dataIndex: 'soloWins',
 			key: 'soloWins',
-			render: (text, row, index) => {
+			render: (text, row) => {
 				if (text) {
 					return text;
 				} else {
