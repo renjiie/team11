@@ -1,23 +1,40 @@
+/* eslint-disable no-sequences */
 const sortable = (obj) => {
-	const sortObj = Object.entries(obj)
-		.sort(([, a], [, b]) => b - a)
-		.reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+	const sortObject = (o) => {
+		let max = 0;
+		for (let property in o) {
+			max = max < parseFloat(property) ? parseFloat(property) : max;
+		}
+		const maxObj = {};
+		maxObj[max] = o[max];
+		return maxObj;
+	};
+
+	const obj2 = {};
+	Object.keys(obj).map((el) => {
+		if (obj2[obj[el][2]]) {
+			obj2[obj[el][2]] = [...obj2[obj[el][2]], obj[el][0], obj[el][1]];
+		} else {
+			obj2[obj[el][2]] = [obj[el][0], obj[el][1]];
+		}
+		return null;
+	});
+	const sortObj = sortObject(obj2);
 	return sortObj;
 };
 export const getKeyByValue = (object, value) => {
 	return Object.keys(object).find((key) => object[key] === value);
 };
 export const findWinner = (team, points) => {
-	// console.log('-----------LOG MATCH ID---------------', id);
 	const teamObj = {};
 	Object.values(team).map(
-		(el) => (teamObj[`${el[0]} & ${el[1]}`] = points[el[0]] + points[el[1]])
+		(el, index) =>
+			(teamObj[index] = [el[0], el[1], points[el[0]] + points[el[1]]])
 	);
 	const sort = sortable(teamObj);
 	return sort;
 };
 export const findWins = (data) => {
-	// console.log('-----------LOG MATCH ID---------------', id);
 	const stats = {
 		solo: {},
 		totalPoints: {},
@@ -32,17 +49,14 @@ export const findWins = (data) => {
 			} else {
 				stats.solo[el.winner] = 1;
 			}
-			Object.keys(findWinner(el.team, el.points))[0]
-				.replace(/\s/g, '')
-				.split('&')
-				.map((player) => {
-					if (stats.duo[player]) {
-						stats.duo[player] = stats.duo[player] + 1;
-					} else {
-						stats.duo[player] = 1;
-					}
-					return null;
-				});
+			Object.values(findWinner(el.team, el.points))[0].map((player) => {
+				if (stats.duo[player]) {
+					stats.duo[player] = stats.duo[player] + 1;
+				} else {
+					stats.duo[player] = 1;
+				}
+				return null;
+			});
 		}
 		return null;
 	});
@@ -60,8 +74,6 @@ export const findWins = (data) => {
 		});
 		return result;
 	};
-	stats.totalPoints = sortable(mergePoints(pointsArr));
-	stats.solo = sortable(stats.solo);
-	stats.duo = sortable(stats.duo);
+	stats.totalPoints = mergePoints(pointsArr);
 	return stats;
 };

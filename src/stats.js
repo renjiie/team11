@@ -46,6 +46,7 @@ const Stats = ({ data }) => {
 		},
 	];
 	const statistics = findWins(data);
+
 	Object.keys(statistics.totalPoints).length > 0 &&
 		Object.keys(statistics.solo).length > 0 &&
 		Object.keys(statistics.duo).length > 0 &&

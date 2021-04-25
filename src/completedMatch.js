@@ -43,39 +43,24 @@ const CompletedMatch = ({ data }) => (
 							))}
 						</div>
 						<div className='match-team-winner'>
-							{findWinner(el.team, el.points) && (
-								<div className='team-win-flex'>
-									<Avatar.Group>
-										<Avatar
-											src={
-												<Image
-													preview='false'
-													src={getImageByKey(
-														Object.keys(findWinner(el.team, el.points))[0]
-															.replace(/\s/g, '')
-															.split('&')[0]
-													)}
-												/>
-											}
-										/>
-										<Avatar
-											src={
-												<Image
-													preview='false'
-													src={getImageByKey(
-														Object.keys(findWinner(el.team, el.points))[0]
-															.replace(/\s/g, '')
-															.split('&')[1]
-													)}
-												/>
-											}
-										/>
-									</Avatar.Group>
-
-									<div>{Object.keys(findWinner(el.team, el.points))[0]}</div>
-									<div>{Object.values(findWinner(el.team, el.points))[0]}</div>
+							<div className='team-win-flex'>
+								<Avatar.Group className='avatar-group-icons'>
+									{findWinner(el.team, el.points) &&
+										Object.values(
+											findWinner(el.team, el.points)
+										)[0].map((el) => (
+											<Avatar
+												src={
+													<Image preview={'false'} src={getImageByKey(el)} />
+												}
+											/>
+										))}
+								</Avatar.Group>
+								<div>
+									{Object.values(findWinner(el.team, el.points))[0].join(' & ')}
 								</div>
-							)}
+								<div>{Object.keys(findWinner(el.team, el.points))[0]}</div>
+							</div>
 						</div>
 						<div className='match-winner'>
 							<div className='team-win-flex'>
