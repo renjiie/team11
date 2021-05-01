@@ -12,7 +12,15 @@ const Stats = ({ data }) => {
 			render: (text) => {
 				return (
 					<div className='avatar-name-cell'>
-						<Avatar src={<Image src={getImageByKey(text)} />} />
+						<Avatar
+							src={
+								<Image
+									alt='winner-img'
+									preview={false}
+									src={getImageByKey(text)}
+								/>
+							}
+						/>
 						<div className='avatar-name'>{text}</div>
 					</div>
 				);

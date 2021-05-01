@@ -13,7 +13,7 @@ import {
 import { individualTeams, player_names } from './configs';
 import { getKeyByValue } from './utils';
 import { getImageByKey } from './utils/fetchImage';
-import partner from './assets/partner.gif';
+import partner from './assets/partner.webp';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -186,10 +186,9 @@ const LoginForm = () => {
 											<Avatar
 												src={
 													<Image
+														alt='winner-img'
 														src={getImageByKey(item)}
-														preview={{
-															src: getImageByKey(item),
-														}}
+														preview={false}
 													/>
 												}
 											/>
@@ -220,20 +219,18 @@ const LoginForm = () => {
 												<Avatar
 													src={
 														<Image
+															alt='winner-img'
+															preview={false}
 															src={getImageByKey(item[0])}
-															preview={{
-																src: getImageByKey(item[0]),
-															}}
 														/>
 													}
 												/>
 												<Avatar
 													src={
 														<Image
+															alt='winner-img'
+															preview={false}
 															src={getImageByKey(item[1])}
-															preview={{
-																src: getImageByKey(item[1]),
-															}}
 														/>
 													}
 												/>

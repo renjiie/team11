@@ -24,7 +24,6 @@ const CompletedMatch = ({ data }) => (
 						<div className='match-combo'>
 							{Object.values(el.team).map((elArr, index) => (
 								<div className='team-category-container'>
-									{/* <div className='team-category-name'>T {index + 1}</div> */}
 									<Card title={`T ${index + 1}`}>
 										<Card.Grid style={gridStyle} className='card-grid-cont'>
 											<div className='team-category'>
@@ -51,7 +50,11 @@ const CompletedMatch = ({ data }) => (
 										)[0].map((el) => (
 											<Avatar
 												src={
-													<Image preview={'false'} src={getImageByKey(el)} />
+													<Image
+														preview={false}
+														src={getImageByKey(el)}
+														alt='winner-img'
+													/>
 												}
 											/>
 										))}
@@ -66,9 +69,12 @@ const CompletedMatch = ({ data }) => (
 							<div className='team-win-flex'>
 								<div className='avatar-winner'>
 									<Avatar
-										// style={{ marginRight: '10px' }}
 										src={
-											<Image preview='false' src={getImageByKey(el.winner)} />
+											<Image
+												alt='winner-img'
+												preview={false}
+												src={getImageByKey(el.winner)}
+											/>
 										}
 									/>
 									{el.winner}

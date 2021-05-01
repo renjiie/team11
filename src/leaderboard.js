@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Table, Tabs, Avatar, Image } from 'antd';
+import { Table, Tabs, Avatar, Image, Spin } from 'antd';
 import { columns } from './configs';
 import { message } from 'antd';
 import { getImageByKey } from './utils/fetchImage';
-import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Leaders from './leaders';
 import CompletedMatch from './completedMatch';
@@ -76,20 +75,18 @@ const Leaderboard = () => {
 									<Avatar
 										src={
 											<Image
+												alt='winner-img'
 												src={getImageByKey(valArr[0])}
-												preview={{
-													src: getImageByKey(valArr[0]),
-												}}
+												preview={false}
 											/>
 										}
 									/>
 									<Avatar
 										src={
 											<Image
+												alt='winner-img'
 												src={getImageByKey(valArr[1])}
-												preview={{
-													src: getImageByKey(valArr[1]),
-												}}
+												preview={false}
 											/>
 										}
 									/>
